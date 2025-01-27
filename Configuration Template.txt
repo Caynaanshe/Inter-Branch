@@ -1,0 +1,282 @@
+Branch Office 1
+
+R1 
+
+hostname R1
+
+! Interface configurations
+interface se0/1/0
+ ip address 100.0.0.1 255.255.255.252
+ no shutdown
+!
+interface g0/0/0
+ ip address 172.16.1.1 255.255.255.252
+ no shutdown
+!
+interface g0/0/1
+ ip address 172.16.1.5 255.255.255.252
+ no shutdown
+!
+
+! OSPF Configuration
+router ospf 1
+ network 172.16.1.0 0.0.0.3 area 0
+ network 172.16.1.4 0.0.0.3 area 0
+ network 100.0.0.0 0.0.0.3 area 0
+
+
+R3
+hostname R3
+
+! Interface configurations
+interface se0/1/0
+ ip address 100.0.0.2 255.255.255.252
+ no shutdown
+!
+interface se0/1/1
+ ip address 100.0.0.6 255.255.255.252
+ no shutdown
+!
+
+! OSPF Configuration
+router ospf 1
+ network 100.0.0.0 0.0.0.3 area 0
+ network 100.0.0.4 0.0.0.3 area 0
+
+
+L3-SW1
+hostname Layer3_SW1
+ip routing
+
+vlan 10
+ name Finance
+interface vlan10
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+!
+vlan 20
+ name IT
+interface vlan20
+ ip address 192.168.2.1 255.255.255.0
+ no shutdown
+!
+
+interface g0/1
+ no switchport
+ ip address 172.16.1.2 255.255.255.252
+ no shutdown
+!
+
+interface range fa0/4-5
+ channel-group 1 mode active
+!
+interface port-channel 1
+ no switchport
+ ip address 172.16.1.9 255.255.255.252
+!
+
+interface fa0/1
+swichport mode access
+switchport access vlan 10
+interface fa0/2
+swichport mode access
+switchport access vlan 20
+
+! OSPF Configuration
+router ospf 1
+ network 192.168.1.0 0.0.0.255 area 0
+ network 192.168.2.0 0.0.0.255 area 0
+ network 172.16.1.0 0.0.0.3 area 0
+ network 172.16.1.8 0.0.0.3 area 0
+
+L3-SW2
+hostname Layer3_SW2
+ip routing
+
+vlan 10
+ name Finance
+interface vlan10
+ ip address 192.168.1.2 255.255.255.0
+ no shutdown
+!
+vlan 20
+ name IT
+interface vlan20
+ ip address 192.168.2.2 255.255.255.0
+ no shutdown
+!
+
+interface g0/1
+ no switchport
+ ip address 172.16.1.6 255.255.255.252
+ no shutdown
+!
+
+interface range fa0/4-5
+ channel-group 1 mode active
+!
+interface port-channel 1
+ no switchport
+ ip address 172.16.1.10 255.255.255.252
+!
+interface fa0/1
+switchport mode access
+switchport access vlan 10
+interface fa0/2
+switchport mode access
+switchport access vlan 20
+
+! OSPF Configuration
+router ospf 1
+ network 192.168.1.0 0.0.0.255 area 0
+ network 192.168.2.0 0.0.0.255 area 0
+ network 172.16.1.4 0.0.0.3 area 0
+ network 172.16.1.8 0.0.0.3 area 0
+
+SW1
+hostname SW1
+interface range fa0/3 - 4
+switchport mode access
+switchport access vlan 10
+vlan 10
+name Finance
+
+SW2
+hostname SW2
+interface range fa0/3 - 4
+switchport mode access
+switchport access vlan 20
+vlan 20
+name IT
+
+
+
+
+Branch Office 2
+
+R2
+hostname R2
+! Interface configurations
+interface se0/1/1
+ ip address 100.0.0.5 255.255.255.252
+ no shutdown
+!
+interface g0/0/0
+ ip address 172.16.1.13 255.255.255.252
+ no shutdown
+!
+interface g0/0/1
+ ip address 172.16.1.17 255.255.255.252
+ no shutdown
+!
+
+! OSPF Configuration
+router ospf 1
+ network 172.16.1.12 0.0.0.3 area 0
+ network 172.16.1.16 0.0.0.3 area 0
+ network 100.0.0.4 0.0.0.3 area 0
+
+L3-SW3
+hostname Layer3_SW3
+ip routing
+
+vlan 30
+ name Management
+interface vlan30
+ ip address 192.168.3.1 255.255.255.0
+ no shutdown
+!
+vlan 40
+ name Wi-Fi
+interface vlan40
+ ip address 192.168.4.1 255.255.255.0
+ no shutdown
+!
+
+interface g0/1
+ no switchport
+ ip address 172.16.1.14 255.255.255.252
+ no shutdown
+!
+
+interface range fa0/4-5
+ channel-group 1 mode active
+!
+interface port-channel 1
+ no switchport
+ ip address 172.16.1.21 255.255.255.252
+!
+
+interface fa0/1
+switchport mode access
+switchport access vlan 30
+interface fa0/2
+switchport mode access
+switchport access vlan 40
+
+! OSPF Configuration
+router ospf 1
+ network 172.16.1.12 0.0.0.3 area 0
+ network 192.168.3.0 0.0.0.255 area 0
+ network 192.168.4.0 0.0.0.255 area 0
+
+L3-SW4
+hostname Layer3_SW4
+ip routing
+
+vlan 30
+ name Management
+interface vlan30
+ ip address 192.168.3.2 255.255.255.0
+ no shutdown
+!
+vlan 40
+ name Wi-Fi
+interface vlan40
+ ip address 192.168.4.2 255.255.255.0
+ no shutdown
+!
+
+interface g0/1
+ no switchport
+ ip address 172.16.1.18 255.255.255.252
+ no shutdown
+!
+
+interface range fa0/4-5
+ channel-group 1 mode active
+!
+interface port-channel 1
+ no switchport
+ ip address 172.16.1.22 255.255.255.252
+!
+
+interface fa0/1
+switchport mode access
+switchport access vlan 30
+interface fa0/2
+switchport mode access
+switchport access vlan 40
+
+! OSPF Configuration
+router ospf 1
+ network 172.16.1.16 0.0.0.3 area 0
+ network 192.168.3.0 0.0.0.255 area 0
+ network 192.168.4.0 0.0.0.255 area 0
+
+SW3
+hostname SW3
+interface range fa0/3 - 4
+switchport mode access
+switchport access vlan 30
+vlan 30
+name Management
+
+SW4
+hostname SW4
+interface range fa0/3 - 4
+switchport mode trunk
+switchport trunk encapsulation dot1q
+switchport trunk allowed vlan 10,20,30,40
+vlan 40
+name Wi-Fi
