@@ -1,4 +1,5 @@
 Inter-Branch Connectivity Project
+
 Overview
 This project demonstrates the configuration and troubleshooting of inter-branch connectivity using routers, Layer 3 switches, and access switches. The design connects two branch offices and implements features like VLAN segmentation, OSPF routing, and trunk links.
 
